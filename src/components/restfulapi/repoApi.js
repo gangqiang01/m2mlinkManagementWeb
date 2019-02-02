@@ -1,12 +1,9 @@
-import {apiGet, apiPost, apiDelete} from "../../assets/js/baseApi";
+import {apiGet, apiPost, apiPostfile, apiDelete} from "../../assets/js/baseApi";
 
 
-let addUserApi = function(form){
+let addRepoApi = function(data){
     return new Promise((resolve, reject) => {
-        let data = {}
-        data.name = form.username
-        data.passwd = form.password
-        apiPost('/user', data).then((data) => {
+        apiPost('/repo', data).then((data) => {
             resolve(data)
         }).catch((error) => {
             resolve(err.response)
@@ -14,10 +11,19 @@ let addUserApi = function(form){
     })
 }
 
-let deleteUserApi = function(uid){
+let deleteRepoApi = function(rid){
     return new Promise((resolve, reject) => {
+        apiDelete('/repo/'+ rid).then((data) => {
+            resolve(data)
+        }).catch((error) => {
+            resolve(err.response)
+        })
+    })
+} 
 
-        apiDelete('/user/'+uid).then((data) => {
+let getReposApi = function(data){
+    return new Promise((resolve, reject) => {
+        apiGet('/repo', data).then((data) => {
             resolve(data)
         }).catch((error) => {
             resolve(err.response)
@@ -25,20 +31,9 @@ let deleteUserApi = function(uid){
     })
 }
 
-let getAllUserInfoApi = function(data){
+let updateRepoApi = function(data){
     return new Promise((resolve, reject) => {
-        apiGet('/user', data).then((data) => {
-            resolve(data)
-        }).catch((error) => {
-            resolve(err.response)
-        })
-    })
-}
-
-let getUserInfoApi = function(uid){
-    return new Promise((resolve, reject) => {
-
-        apiGet('/user/'+uid).then((data) => {
+        apiPost('/repo/'+ rid, data).then((data) => {
             resolve(data)
         }).catch((error) => {
             resolve(err.response)
@@ -47,8 +42,8 @@ let getUserInfoApi = function(uid){
 }
 
 export {
-    getAllUserInfoApi,
-    deleteUserApi,
-    getUserInfoApi,
-    addUserApi
+    addRepoApi,
+    deleteRepoApi,
+    getReposApi,
+    updateRepoApi
 }

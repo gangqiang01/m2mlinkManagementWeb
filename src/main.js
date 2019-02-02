@@ -26,15 +26,20 @@ window.store = store;
 window.router = router;
 window.moment = moment;
 
-
-// axios.defaults.baseURL = serverUrl;
-// axios.defaults.headers['accesstoken'] = cookie.getCookie("token");
-axios.defaults.timeout = 1000 * 10;
-// axios.defaults.crossDomain = true;
-// axios.defaults.async = true
-// axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
-
-Vue.config.productionTip = false
+axios.interceptors.request.use((config) => {
+     // before send request
+    if(config.url.indexOf("/vuethink/php/index.php/") < 0 ){
+        if(config.method === "put"){
+            config.headers.timeout = 1000*40;
+        }else{
+            config.headers.timeout = 1000*10;
+        }
+        config.headers.accesstoken = cookie.getCookie("token");
+    }
+    return config;
+ }, function (error){
+    return Promise.reject(error);
+ });
 
 Vue.use(ElementUI)
 

@@ -1,7 +1,7 @@
 <template>
 	<div>
         <div class="m-t-10 ">
-            <p class="header-line"><i class="fa fa-server c-blue m-r-10" aria-hidden="true"></i>{{$t('User List')}}</p>
+            <p class="header-line"><i class="fa fa-server c-blue m-r-10" aria-hidden="true"></i>User List</p>
         </div>
 		<div class="cf panel-header">
             <div class="fr m-r-10"> 
@@ -28,7 +28,7 @@
 			<el-table-column
 			label="Create Time"
 			min-width="115">
-                <template scope="scope">
+                <template slot-scope="scope">
                     <div>
                         {{ scope.row.ts|time}}
                     </div>
@@ -38,17 +38,17 @@
 			<el-table-column
 			label="Action"
 			width="150">
-            <template scope="scope">
+            <template slot-scope="scope">
             <div>
                 <span>
-                    <el-button size="small" type="danger" @click="confirmDelete(scope.row)">delete</el-button>
+                    <el-button size="small" type="danger" @click="deleteUser(scope.row)">delete</el-button>
                 </span>
             </div>
             </template>
 			</el-table-column>
 		</el-table>
    
-		<div class="pos-rel p-t-20 fr">
+		<div class="p-t-20 fr">
        
 			<div>
 				<el-pagination
@@ -61,11 +61,11 @@
 			</div>
 		</div>
         <el-dialog title="Add User" :visible.sync="dialogAddUserVisible">
-            <el-form ref="form" :model="form" :rules="rules" label-width="formLabelWidth" >
-                <el-form-item label="User Name:">
+            <el-form ref="form" :model="form" :rules="rules" label-width="130px" class="m-l-30">
+                <el-form-item label="User Name:" :label-width="formLabelWidth" >
                     <el-input v-model.trim="form.username" autocomplete="off" style="width: 320px"></el-input>
                 </el-form-item>
-                <el-form-item label="Password:">
+                <el-form-item label="Password:" :label-width="formLabelWidth">
                     <el-input v-model.trim="form.password" autocomplete="off" style="width: 320px"></el-input>
                 </el-form-item>
             </el-form>
@@ -78,60 +78,54 @@
 </template>
 
 <script>
-    import {allUserInfoApi, deleteUserApi, addUserApi} from "../restfulapi/userApi"
+    import {getAllUserInfoApi, deleteUserApi, addUserApi} from "../restfulapi/userApi"
     import handleResponse from "../restfulapi/handleResponse"
 
     export default {
         data() {
-             var validateUser=(rule,value,callback)=>{
-                let reg=new RegExp(/^[a-zA-Z0-9]\S{5,17}$/);
-                if(!reg.test(value)){
-                return callback(new Error ('字母或数字开头，长度为6-18位 只包含字母和数字'))
-                }else if(value==""){
-                return callback(new Error('请输入用户名'))
-                }else{callback()};
+            let validateUser = (rule, value, callback) => {
+                let reg = new RegExp(/^[a-zA-Z0-9]\S{3,17}$/);
+                if(value == ""){
+                    callback(new Error('please input username'));
+                }else if(!reg.test(value)){
+                    callback(new Error('Beginning with a letter or number, the length is 4-18 bits and contains only letters and Numbers'));
+                }else{
+                    callback();
+                }
             };
-            var validatePassword=(rule,value,callback)=>{
-                let reg=new RegExp(/^[a-zA-Z]\w{5,17}$/);
-                if(!reg.test(value)){
-                return callback(new Error ('字母开头，长度为6-18位 只包含字母、数字和下划线'))
-                };
-                if(value==""){
-                return callback(new Error('请输入用户名密码 '))
-                }else{callback()};
+
+            let validatePassword = (rule, value, callback) => {
+                let reg = new RegExp(/^[a-zA-Z]\w{3,17}$/);
+                if(value == ""){
+                    callback(new Error('please input password'));
+                }else if(!reg.test(value)){
+                    callback(new Error('Letters begin with a length of 4-18 digits and contain only alphanumeric and underscore characters'));
+                }else{
+                    callback();
+                }
+                
             };
+
             return {
                 tableData: [],
                 dataCount: null,
                 currentPage: null,
                 keywords: '',
                 multipleSelection: [],
-                limit: 15,
+                limit: 10,
                 dialogAddUserVisible:false,
-                formLabelWidth: 130,
+                formLabelWidth: "130px",
                 form: {
                     username: '',
                     password: '',
                 },
                 rules: {
-                    username: [
-                        {  validator:validateUser,required:true,trigger:'blur' }
-                    ],
-                    
-                    password: [
-                        {  validator:validatePassword,required:true,trigger:'blur' }
-                    ],
-                    
+                    username: {validator: validateUser, trigger: 'blur'},
+                    password: {validator: validatePassword, trigger: 'blur'},
                 }
             }
         },
         methods: {
-            search() {
-                router.push({ path: this.$route.path, query: { keywords: this.keywords, page: 1 }})
-            },
-            selectItem(val) {
-                this.multipleSelection = val
-            },
             handleCurrentChange(page) {
                 router.push({ path: this.$route.path, query: { keywords: this.keywords, currentpage: page }})
             },
@@ -142,10 +136,8 @@
                         deleteUserApi(item.uid).then((res) => {
                             handleResponse(res, (data) => {
                                 if(data.status === "success"){
-                                    _g.swalSuccessDo("success").then((result) => {
-                                        if(result){
-                                            this.getAllUsers()
-                                        }
+                                    swal("","success","success").then(() => {
+                                        this.getAllUsers();
                                     })
                                 }
                                 
@@ -155,19 +147,22 @@
                 })
                
             },
+
             getAllUsers() {
                 const data = {
                     keywords: this.keywords,
                     currentpage: this.currentPage,
                     limit: this.limit
                 }
-                allUserInfoApi(data).then((res) => {
+                getAllUserInfoApi(data).then((res) => {
                     handleResponse(res, (data) => {
+                        console.log(data);
                         this.tableData = data.data;
                         this.dataCount = this.tableData.length;
                     })
                 })
             },
+
             getCurrentPage() {
                 let data = this.$route.query
                 if (data) {
@@ -178,6 +173,7 @@
                     }
                 }
             },
+
             getKeywords() {
                 let data = this.$route.query
                 if (data) {
@@ -190,20 +186,22 @@
             },
 
            addUser() {
-                this.$refs.form.validate((pass) => {
-                    if (pass) {
-                        addUserApi(this.form).then((res) => {
+               this.$refs.form.validate((valid) => {
+                   if(valid){
+                        getAddUserApi(this.form).then((res) => {
                             handleResponse(res, (data) => {
                                 if(data.status === "success"){
-                                    swal("","success","success")
+                                    swal("","success","success").then(() => {
+                                        this.getAllUsers();
+                                    })
                                 }else{
-                                    _g.handleError(data)
+                                    _g.handleError(data);
                                 }
                                 this.dialogAddUserVisible = false;
                             })
                         })
                     }
-                })
+               })
             },
 
             init() {

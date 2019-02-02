@@ -16,6 +16,5 @@ let loginApi = function(username, password){
 }
 
 export {
-    loginApi,
-    loginoutApi
+    loginApi
 }

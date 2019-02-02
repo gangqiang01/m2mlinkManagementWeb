@@ -6,7 +6,7 @@
                 <i :class="[isCollapse? allowright: allowleft]"class="c-blue" aria-hidden="true"></i>
             </li> -->
             <li style="font-size:34px; color:#3c8dbc; font-weight:900; font-family: 'Microsoft YaHei'">
-                AimLink
+                AimLink Admin
                 <!-- <img src="@/assets/imgs/m2mlink_logo.png"> -->
             </li>
         </ul>
@@ -52,7 +52,7 @@
         </ul>
     </el-header>
 </template>
-<style lang="scss" scoped>
+<style lang="scss"  scoped>
     @import "../../assets/css/colors"; 
 
     .nav-header{

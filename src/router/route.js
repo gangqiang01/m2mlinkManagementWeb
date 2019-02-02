@@ -2,6 +2,8 @@ import login from '@/components/account/login'
 import refresh from  '@/components/refresh' 
 import main from '@/components/home'
 import userList from '@/components/user/list'
+import appmagrList from "@/components/appmagr/list"
+import repoList from "@/components/repo/list"
 
 let childRoute = [
     {
@@ -15,9 +17,26 @@ let childRoute = [
         component: userList,
         name: 'userList',
         meta:{
-            menuNmae: 'userList'
+            menuName: 'userList'
         }
     },
+    {
+        path: 'appmagr/list',
+        component: appmagrList,
+        name: 'appmagrList',
+        meta: {
+            menuName: 'appmagrList'
+        }
+    },
+    {
+        path: 'repo/list',
+        component: repoList,
+        name: 'repoList',
+        meta: {
+            menuName: 'repoList'
+        }
+    },
+
     {
         path: '*',
         redirect:'user/list'

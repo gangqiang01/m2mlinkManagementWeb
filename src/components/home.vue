@@ -14,9 +14,21 @@
                     :unique-opened="isUnique"
                     :collapse="isCollapse">
                     <router-link to="/main/user/list">
-                        <el-menu-item index="userlist">
+                        <el-menu-item index="userList">
                             <i class="fa fa-tasks m-r-10" ></i>
                             <span slot="title">User List</span>
+                        </el-menu-item>
+                    </router-link>
+                     <router-link to="/main/repo/list">
+                        <el-menu-item index="repoList">
+                            <i class="fa fa-suitcase" aria-hidden="true"></i>
+                            <span slot="title">Repo List</span>
+                        </el-menu-item>
+                    </router-link>
+                     <router-link to="/main/appmagr/list">
+                        <el-menu-item index="appmagrList">
+                            <i class="fa fa-android m-r-10" ></i>
+                            <span slot="title">App List</span>
                         </el-menu-item>
                     </router-link>
                 </el-menu>
