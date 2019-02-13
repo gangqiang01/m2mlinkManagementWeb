@@ -37,7 +37,7 @@
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="hideDialog">Cancel</el-button>
+            <el-button @click="dialogAddAppVisible = false">Cancel</el-button>
             <el-button type="primary" @click="addApp()">Add</el-button>
         </div>
     </el-dialog>
@@ -62,6 +62,7 @@
                 repoOptions:[],
                 file:null,
                 isShowClose: false,
+                dialogAddAppVisible: false,
                 form:{
                     rid:'',
                     description:'',
@@ -77,12 +78,6 @@
                     ], 
                 }
             };
-        },
-        props: {
-            dialogAddAppVisible: {
-                type: Boolean,
-                default: false,
-            }
         },
         methods: {
             getfile(event){
@@ -112,7 +107,8 @@
                             handelResponse(res, (data) => {
                                 if(data.status === "success"){
                                     swal("", "success", "success").then(() => {
-                                        this.$emit("result", false);
+                                        this.dialogAddAppVisible = false;
+                                        this.$emit("checkResult", "success");
                                     });
                                 }else{
                                     _g.handleError(data);
@@ -133,8 +129,13 @@
                     })
                 })
             },
-            hideDialog(){
-                this.$emit("result", false);
+        },
+        watch: {
+            dialogAddAppVisible(val){
+                if(val){
+                    Object.assign(this.$data.form, this.$options.data().form)
+                }
+                
             }
         },
         created() {

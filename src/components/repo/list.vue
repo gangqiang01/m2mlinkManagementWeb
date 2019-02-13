@@ -5,7 +5,7 @@
         </div>
 		<div class="cf panel-header">
             <div class="fr m-r-10"> 
-                <el-button size="small" type="success" @click="dialogAddRepoVisible=true">Add</el-button> 
+                <el-button size="small" type="success" @click="showAddDialog">Add</el-button> 
                 <el-input size="small" class="w-300 m-l-10" v-model="keywords" placeholder="Keyword of user">
                     <el-button slot="append" icon="el-icon-search"  @click="handleCurrentChange" ></el-button>
                 </el-input>
@@ -59,7 +59,7 @@
 				</el-pagination>
 			</div>
 		</div>
-        <add-dialog :dialogAddRepoVisible=dialogAddRepoVisible @result="checkResult"></add-dialog>
+        <add-dialog ref="addDialog" @checkResult="checkResult"></add-dialog>
 	</div>
 </template>
 <script>
@@ -105,12 +105,13 @@ export default {
             }
         },
 
-
         checkResult(val){
-            this.dialogAddRepoVisible= false;
-            if(!val){
+            if(val === "success"){
                 this.getAllRepos();
             }
+        },
+        showAddDialog(){
+            this.$refs.addDialog.dialogAddRepoVisible = true;
         },
 
         confirmDelete(item) {

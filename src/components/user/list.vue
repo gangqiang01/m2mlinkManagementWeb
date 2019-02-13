@@ -62,10 +62,10 @@
 		</div>
         <el-dialog title="Add User" :visible.sync="dialogAddUserVisible">
             <el-form ref="form" :model="form" :rules="rules" label-width="130px" class="m-l-30">
-                <el-form-item label="User Name:" :label-width="formLabelWidth" >
+                <el-form-item label="User Name:" :label-width="formLabelWidth" prop="username" >
                     <el-input v-model.trim="form.username" autocomplete="off" style="width: 320px"></el-input>
                 </el-form-item>
-                <el-form-item label="Password:" :label-width="formLabelWidth">
+                <el-form-item label="Password:" :label-width="formLabelWidth" prop="password">
                     <el-input v-model.trim="form.password" autocomplete="off" style="width: 320px"></el-input>
                 </el-form-item>
             </el-form>
@@ -188,7 +188,7 @@
            addUser() {
                this.$refs.form.validate((valid) => {
                    if(valid){
-                        getAddUserApi(this.form).then((res) => {
+                        addUserApi(this.form).then((res) => {
                             handleResponse(res, (data) => {
                                 if(data.status === "success"){
                                     swal("","success","success").then(() => {

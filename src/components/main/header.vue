@@ -136,8 +136,8 @@
             },
 
             getuserinfo(){
-                this.username = localStorage.getItem("username");
-                this.logintime = localStorage.getItem("logintime");
+                this.username = sessionStorage.getItem("username");
+                this.logintime = sessionStorage.getItem("logintime");
             },
 
             loginout(){

@@ -47,22 +47,22 @@ let route = [
         path: '/',
         component: login,
         name: 'login',
-        // beforeEnter: (to, from, next) => {
-        //     cookie.setCookie("token",'',0)
-        //     next();
-        // }
+        beforeEnter: (to, from, next) => {
+            cookie.setCookie("token",'',0)
+            next();
+        }
     },
     {
         path: '/main',
         name: 'main',
         component: main,
-        // beforeEnter: (to, from, next) => {
-        //     if(cookie.getCookie("token") === ""){
-        //         next("/")
-        //     }else{
-        //         next()
-        //     }
-        // },
+        beforeEnter: (to, from, next) => {
+            if(cookie.getCookie("token") === ""){
+                next("/")
+            }else{
+                next()
+            }
+        },
         children: childRoute,
         redirect:'/main/device/list'    
     },

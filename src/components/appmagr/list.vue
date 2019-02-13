@@ -85,7 +85,7 @@
                 </el-pagination>
             </div>
         </div>
-        <add-dialog :dialogAddAppVisible=dialogAddAppVisible @result="checkResult"></add-dialog>
+        <add-dialog ref="addDialog" @checkResult="checkResult"></add-dialog>
 	</div>
 </template>
 <script>
@@ -119,12 +119,6 @@
                     } else {
                         this.keywords = ''
                     }
-                }
-            },
-            checkResult(val){
-                this.dialogAddAppVisible = val;
-                if(!val){
-                    this.getAllApps();
                 }
             },
             getCurrentPage() {
@@ -181,10 +175,17 @@
                         }
                     })
                 })
-            },  
+            }, 
+
             showAddDialog(){
-                this.dialogAddAppVisible = true;
-            },   
+                this.$refs.addDialog.dialogAddAppVisible = true;
+            },  
+
+            checkResult(val){
+                if(val === "success"){
+                    this.getAllApps();
+                }
+            },
             init() {
                 this.getCurrentPage(),
                 this.getKeywords(),

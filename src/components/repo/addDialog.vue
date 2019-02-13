@@ -13,14 +13,14 @@
                 :autosize="{ minRows: 1, maxRows: 3}">
                 </el-input>
             </el-form-item>
-            <el-form-item label="Repo" >
+            <el-form-item label="Repo Manager" >
                 <el-select v-model.number="form.uid"  class="repoSelect" placeholder="Please select repo manager">
                     <el-option v-for="(item, index) in repousers" :key="index" :label="item.name" :value="item.uid"></el-option>
                 </el-select>
             </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
-            <el-button @click="hideDialog()">Cancel</el-button>
+            <el-button @click="dialogAddRepoVisible = false">Cancel</el-button>
             <el-button type="primary" @click="addRepo()">Add</el-button>
         </div>
     </el-dialog>
@@ -45,6 +45,7 @@ export default {
             repousers:[],
             isLoading: false,
             isShowClose: false,
+            dialogAddRepoVisible: false,
             form: {
                 reponame:'',
                 description:'',
@@ -60,12 +61,6 @@ export default {
             }
         }
     },
-    props: {
-        dialogAddRepoVisible: {
-            type: Boolean,
-            default: false,
-        }
-    },
     methods: {
         addRepo() {
             this.$refs.form.validate((pass) => {
@@ -78,7 +73,8 @@ export default {
                             if(data.status === "success"){
                                 _g.closeGlobalLoading()
                                 swal("", "success", "success").then(() => {
-                                    this.$emit("result", false);
+                                    this.dialogAddRepoVisible = false;
+                                    this.$emit("checkResult", "success");
                                 })
                             }else{
                                 _g.handleError(data);
@@ -97,8 +93,13 @@ export default {
                 })
             })
         },
-        hideDialog(){
-            this.$emit("result", false);
+    },
+    watch: {
+        dialogAddRepoVisible(val){
+            if(val){
+                Object.assign(this.$data.form, this.$options.data().form)
+            }
+            
         }
     },
     created() {

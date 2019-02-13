@@ -16,19 +16,19 @@
                     <router-link to="/main/user/list">
                         <el-menu-item index="userList">
                             <i class="fa fa-tasks m-r-10" ></i>
-                            <span slot="title">User List</span>
+                            <span slot="title">User Manager</span>
                         </el-menu-item>
                     </router-link>
                      <router-link to="/main/repo/list">
                         <el-menu-item index="repoList">
                             <i class="fa fa-suitcase" aria-hidden="true"></i>
-                            <span slot="title">Repo List</span>
+                            <span slot="title">Repo Manager</span>
                         </el-menu-item>
                     </router-link>
                      <router-link to="/main/appmagr/list">
                         <el-menu-item index="appmagrList">
                             <i class="fa fa-android m-r-10" ></i>
-                            <span slot="title">App List</span>
+                            <span slot="title">App Manager</span>
                         </el-menu-item>
                     </router-link>
                 </el-menu>
