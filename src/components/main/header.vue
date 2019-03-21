@@ -2,11 +2,11 @@
         <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;"> -->
     <el-header class="nav-header">
         <ul class="nav-left pointer" >
-            <!-- <li @click="collapse()">
-                <i :class="[isCollapse? allowright: allowleft]"class="c-blue" aria-hidden="true"></i>
-            </li> -->
-            <li style="font-size:34px; color:#3c8dbc; font-weight:900; font-family: 'Microsoft YaHei'">
-                AimLink Admin
+            <li @click="collapse()">
+                <i class="fa fa-bars collapseIcon pointer" aria-hidden="true" @click="collapseAsideNavbar()"></i>
+            </li>
+            <li style="font-size:28px; color:#3c8dbc; font-weight:900; font-family: 'Microsoft YaHei'">
+                AndroidLink/A-Store
                 <!-- <img src="@/assets/imgs/m2mlink_logo.png"> -->
             </li>
         </ul>
@@ -15,7 +15,7 @@
             <li> 
                 <el-dropdown trigger="click" >
                     <span class="el-dropdown-link">
-                        <i class="fa fa-user-circle-o header-user"></i> 
+                        <i class="fa fa-user-circle-o header-user pointer"></i> 
                     </span>
                     <el-dropdown-menu slot="dropdown">
                         <el-dropdown-item class="text-center" >
@@ -34,7 +34,7 @@
                 </el-dropdown>  
             </li>
 
-            <li> 
+            <!-- <li> 
                 <el-dropdown trigger="click" @command="switchLang">
                     <span class="el-dropdown-link">
                         <i class="fa fa-globe"></i> 
@@ -48,7 +48,7 @@
                         </el-dropdown-item>
                     </el-dropdown-menu>
                 </el-dropdown>  
-            </li>
+            </li> -->
         </ul>
     </el-header>
 </template>
@@ -71,14 +71,18 @@
                 img{
                     height: 35px;
                 }
-                i{
-                    color : $primary-color;
-                    font-size:1.5rem
+                &:nth-child(1){
+                    margin-right: 1.5rem;
+                    margin-top: 0.5rem;
+                    font-size: 1.1rem;
                 }
-                margin-right: 1rem;
                 &:nth-child(2){
                     margin-top: 0.1rem;
-                } 
+                    font-weight:900; 
+                    font-family: 'Microsoft YaHei';
+                    font-size: 2.1rem; 
+                }
+                color:$primary-color; 
             }
         }
         .nav-right{
@@ -97,16 +101,7 @@
                             
         }
     }
-    .msgContainer{
-        max-height: 22rem;
-        max-width: 20rem;
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
-    .msgHeader{
-        color: $primary-color;
-        font-weight: 700;
-    }
+
 </style>
 <script>
     // import {getAccount, getOnlineDeviceCountApi, getAccountApi} from '../restfulapi/userinfoapi'
@@ -114,6 +109,7 @@
     import {mapState} from 'vuex'
     import {setLang} from '../../lang/lang'
     import handleResponse from '../restfulapi/handleResponse'
+    import {getSession, setLocal, getLocal, removeLocal, checkLocal} from "../../assets/js/storage"
 
     export default{
         name: 'mainHeader',
@@ -136,40 +132,25 @@
             },
 
             getuserinfo(){
-                this.username = sessionStorage.getItem("username");
-                this.logintime = sessionStorage.getItem("logintime");
+                this.username = getSession("username");
+                this.logintime = getSession("logintime");
             },
 
             loginout(){
                 this.$router.replace('/');
             },
 
-            markAll(){
-                this.msgData = [];
-                window.localStorage.removeItem("msgData");   
-            },
-
-            viewAll(){
-                this.markAll();
-                // router.replace('/main/message/list')
-            },
-
-            showMsg(){
-                if(window.localStorage.getItem("msgData") != null){
-                    let msgLocalData = localStorage.getItem('msgData');
-                    msgLocalData = JSON.parse(msgLocalData);
-                    msgLocalData.reverse()
-                    this.msgData = msgLocalData;
-                }               
-            },
             switchLang(lang){
                 setLang(lang);
+            },
+
+            collapseAsideNavbar(){
+                this.$emit("collapseAsideNavbar", "")
             },
             
         },
 
         created(){
-            this.showMsg()
             this.getuserinfo();   
         },
 

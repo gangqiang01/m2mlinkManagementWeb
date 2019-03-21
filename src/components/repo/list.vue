@@ -82,7 +82,7 @@ export default {
     },
     methods: {
         handleCurrentChange(page) {
-            router.push({ path: this.$route.path, query: { keywords: this.keywords, currentpage: page }})
+            router.push({ path: this.$route.path, query: { keywords: this.keywords, currentpage: this.currentPage }})
         },
         getCurrentPage() {
             let data = this.$route.query

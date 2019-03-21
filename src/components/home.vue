@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper" >
         <!-- <el-radio-group v-model="isCollapse" style="margin-bottom: 20px;"> -->
-        <home-header></home-header>
+        <home-header :isCollapse="isCollapse" @collapseAsideNavbar="collapse"></home-header>
         <!-- </el-radio-group> -->
         <div class="body">
             <div class="menu">
@@ -85,6 +85,9 @@
                     .is-active{
                         background-color: rgb(27,36,40) !important;
                     }
+                }
+                .el-menu--collapse{
+                    height: 100%;
                 }
             }
             .content{

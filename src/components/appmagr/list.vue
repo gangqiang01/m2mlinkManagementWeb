@@ -97,7 +97,7 @@
             return {
                 tableData: [],
                 dataCount: 1,
-                currentPage: null,
+                currentPage: 0,
                 limit: 15,
                 configaction:'',
                 keywords: '',
@@ -109,7 +109,7 @@
         },
         methods: {
             search() {
-                router.push({ path: this.$route.path, query: { keywords: this.keywords, page: 1 }})
+                router.push({ path: this.$route.path, query: { keywords: this.keywords, currentpage: this.currentPage }})
             },
             getKeywords() {
                 let data = this.$route.query
@@ -132,7 +132,7 @@
                 }
             },
             handleCurrentChange(page) {
-                router.push({ path: this.$route.path, query: { keywords: this.keywords, page: page }})
+                router.push({ path: this.$route.path, query: { keywords: this.keywords, currentpage: this.currentPage }})
             },
             confirmDelete(item) {
                 _g.swalInfoDo("Delete").then(() => {
@@ -151,23 +151,13 @@
                     })
                 })
             },
-            getCurrentPage() {
-                let data = this.$route.query
-                if (data) {
-                if (data.page) {
-                    this.currentPage = parseInt(data.page)
-                } else {
-                    this.currentPage = 1
-                }
-                }
-            },
             getAllApps() {
                 const data = {
                     keywords: this.keywords,
                     currentpage: this.currentPage,
                     limit: this.limit
                 }
-                getAppsApi().then((res) => {
+                getAppsApi(data).then((res) => {
                     handelResponse(res, (data) => {
                         if(data.status === "success"){
                             this.tableData = data.data;

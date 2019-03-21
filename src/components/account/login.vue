@@ -1,7 +1,12 @@
 <template>
     <div>
         <el-form :model="form" :rules="rules2" ref="form" label-position="left" label-width="0px" class="demo-ruleForm card-box loginform">
-        <h3 class="title">{{systemName}}</h3>
+        <h3 class="title">
+            <h2>
+                {{systemName}}
+            </h2>
+            <p>Welcome To <br/>AndroidLink/A-Store Server</p>
+        </h3>
         <el-form-item prop="username">
             <el-input type="text" v-model="form.username" auto-complete="off" placeholder="账号"></el-input>
         </el-form-item>
@@ -25,7 +30,7 @@
         data() {
             return {
                 title: '',
-                systemName: 'M2M link',
+                systemName: 'AndroidLink/A-Store',
                 loading: false,
                 form: {
                     username: '',
@@ -73,7 +78,8 @@
     }
 </script>
 
-<style>
+<style lang="scss" scoped>
+@import "../../assets/css/colors";
 .verify-pos {
 	position: absolute;
 	right: 100px;
@@ -95,8 +101,15 @@
 
 .title {
 	margin: 0px auto 40px auto;
-	text-align: center;
-	color: #505458;
+    text-align: center;
+    h2{
+        margin-bottom:5px;
+        color: $primary-color;
+    }
+    p{
+        color: #c0c5d7;
+        font-size: 14px;
+    }
 }
 
 .loginform {
