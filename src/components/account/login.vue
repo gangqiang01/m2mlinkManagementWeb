@@ -1,12 +1,12 @@
 <template>
     <div>
         <el-form :model="form" :rules="rules2" ref="form" label-position="left" label-width="0px" class="demo-ruleForm card-box loginform">
-        <h3 class="title">
+        <div class="title">
             <h2>
                 {{systemName}}
             </h2>
             <p>Welcome To <br/>AndroidLink/A-Store Server</p>
-        </h3>
+        </div>
         <el-form-item prop="username">
             <el-input type="text" v-model="form.username" auto-complete="off" placeholder="账号"></el-input>
         </el-form-item>
@@ -107,8 +107,7 @@
         color: $primary-color;
     }
     p{
-        color: #c0c5d7;
-        font-size: 14px;
+        color: $darkgray-color;
     }
 }
 
