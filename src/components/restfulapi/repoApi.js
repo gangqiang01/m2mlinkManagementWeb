@@ -1,14 +1,25 @@
 import {apiGet, apiPost, apiPostfile, apiDelete} from "../../assets/js/baseApi";
 
 
-let addRepoApi = function(data){
-    return new Promise((resolve, reject) => {
-        apiPost('/repo', data).then((data) => {
-            resolve(data)
-        }).catch((error) => {
-            resolve(err.response)
+let addRepoApi = function({reponame , description= "" , type="", uid}){
+    if(uid && reponame && type){
+        let data = {
+            reponame, 
+            type,
+            description ,
+            uid
+        }
+        return new Promise((resolve, reject) => {
+            apiPost('/repo', data).then((data) => {
+                resolve(data)
+            }).catch((error) => {
+                resolve(err.response)
+            })
         })
-    })
+    }else{
+        console.error(" incorrect parameters")
+    }
+    
 }
 
 let deleteRepoApi = function(rid){

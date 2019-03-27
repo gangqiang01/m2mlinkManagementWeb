@@ -4,6 +4,8 @@ import main from '@/components/home'
 import userList from '@/components/user/list'
 import appmagrList from "@/components/appmagr/list"
 import repoList from "@/components/repo/list"
+import bspmagrList from "@/components/bspmagr/list"
+import bspmagrAdd from "@/components/bspmagr/add"
 
 let childRoute = [
     {
@@ -26,6 +28,22 @@ let childRoute = [
         name: 'appmagrList',
         meta: {
             menuName: 'appmagrList'
+        }
+    },
+    {
+        path: 'bspmagr/list',
+        component: bspmagrList,
+        name: 'bspmagrList',
+        meta: {
+            menuName: 'bspmagrList'
+        }
+    },
+    {
+        path: 'bspmagr/add',
+        component: bspmagrAdd,
+        name: 'bspmagrAdd',
+        meta: {
+            menuName: 'bspmagrAdd'
         }
     },
     {

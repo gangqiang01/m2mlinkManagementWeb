@@ -1,12 +1,12 @@
 <template>
 	<div>
 		<div class="m-t-10 ">
-            <p class="header-line"><i class="fa fa-sliders c-blue m-r-10" aria-hidden="true"></i>App List</p>
+            <p class="header-line"><i class="fa fa-sliders c-blue m-r-10" aria-hidden="true"></i>Bsp List</p>
         </div>
 		<div class="cf panel-header">
             <div class="fr m-r-10"> 
                 <el-button size="small" type="success" @click="showAddDialog">Add</el-button> 
-                <el-input size="small" class="w-300 m-l-10" v-model="keywords" placeholder="Keyword of apk name">
+                <el-input size="small" class="w-300 m-l-10" v-model="keywords" placeholder="Keyword of boardname">
                     <el-button slot="append" icon="el-icon-search"  @click="handleCurrentChange" ></el-button>
                 </el-input>
             </div>
@@ -15,19 +15,25 @@
 		:data="tableData"
 		style="width: 100%"
 		>
-            <el-table-column
-                label="Apk Name"
+            <!-- <el-table-column
+                label="File Name"
                 prop="filename"
                 min-width="100">
-            </el-table-column>
+            </el-table-column> -->
             <el-table-column
-                prop="pkgname"
-                label="Apk Package"
+                prop="address"
+                label="Download Address"
                 min-width="100"
                 >
             </el-table-column>  
             <el-table-column
-                label="reponame"
+                prop="boardname"
+                label="Board Name"
+                min-width="100"
+                >
+            </el-table-column>  
+            <el-table-column
+                label="Repo Name"
                 min-width="100"
                 >
                 <template slot-scope="scope">
@@ -40,7 +46,7 @@
             </el-table-column>
             <el-table-column
                 prop="versionname"
-                label="versionname"
+                label="Build Version"
                 min-width="110"
                 >
             </el-table-column> 
@@ -50,18 +56,6 @@
                 min-width="100"
             >
              </el-table-column>
-            <!-- <el-table-column
-                prop="versioncode"
-                label="versioncode"
-                min-width="100"
-                >
-            </el-table-column> 
-            <el-table-column
-                prop="websit"
-                label="Apk Website"
-                min-width="100"
-            >
-            </el-table-column> -->
             <el-table-column
                 label="Action"
                 width="100">
@@ -85,12 +79,10 @@
                 </el-pagination>
             </div>
         </div>
-        <add-dialog ref="addDialog" @checkResult="checkResult"></add-dialog>
 	</div>
 </template>
 <script>
-    import {getAppsApi, deleteAppApi} from "../restfulapi/appmagrApi"
-    import addDialog from "./addDialog"
+    import {getBspsApi, deleteBspApi} from "../restfulapi/bspmagrApi"
     import handelResponse from "../restfulapi/handleResponse"
     export default {
         data() {
@@ -101,11 +93,7 @@
                 limit: 15,
                 configaction:'',
                 keywords: '',
-                dialogAddAppVisible: false
             }
-        },
-        components: {
-            addDialog
         },
         methods: {
             search() {
@@ -138,11 +126,11 @@
                 _g.swalInfoDo("Delete").then((isDelete) => {
                     if(isDelete){
                         _g.openGlobalLoading();
-                        deleteAppApi(item.raid).then((res) => {
+                        deleteBspApi(item.rbid).then((res) => {
                             handelResponse(res, (data) => {
                                 if(data.status === "success"){
                                     swal("", 'success', 'success').then(() => {
-                                        this.getAllApps();
+                                        this.getAllBsps();
                                     })
                                 }else{
                                     _g.handleError(data);
@@ -150,17 +138,16 @@
                                 
                             })
                         })
-                    }
-                   
+                    }   
                 })
             },
-            getAllApps() {
+            getAllBsps() {
                 const data = {
                     keywords: this.keywords,
                     currentpage: this.currentPage,
                     limit: this.limit
                 }
-                getAppsApi(data).then((res) => {
+                getBspsApi(data).then((res) => {
                     handelResponse(res, (data) => {
                         if(data.status === "success"){
                             this.tableData = data.data;
@@ -171,18 +158,18 @@
             }, 
 
             showAddDialog(){
-                this.$refs.addDialog.dialogAddAppVisible = true;
+                this.$router.push("/main/bspmagr/add");
             },  
 
             checkResult(val){
                 if(val === "success"){
-                    this.getAllApps();
+                    this.getAllBsps();
                 }
             },
             init() {
                 this.getCurrentPage(),
                 this.getKeywords(),
-                this.getAllApps()
+                this.getAllBsps()
             
             }
         },

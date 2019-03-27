@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="m-t-10 ">
-            <p class="header-line"><i class="fa fa-suitcase c-blue m-r-10" aria-hidden="true"></i>Repo List</p>
+            <p class="header-line"><i class="fa fa-sliders c-blue m-r-10" aria-hidden="true"></i>Repo List</p>
         </div>
 		<div class="cf panel-header">
             <div class="fr m-r-10"> 
@@ -18,6 +18,11 @@
             <el-table-column
                 label="Repo Name"
                 prop="reponame"
+                min-width="130">
+            </el-table-column>
+            <el-table-column
+                label="Repo Type"
+                prop="type"
                 min-width="130">
             </el-table-column>	
             <el-table-column
@@ -115,18 +120,21 @@ export default {
         },
 
         confirmDelete(item) {
-            _g.swalWarnDo("Delete").then(() => {
-                deleteRepoApi(item.rid).then(res => {
-                    handelResponse(res, (data) => {
-                        if(data.status === "success"){
-                            swal("", "success", "success").then(() => {
-                                this.getAllRepos();
-                            });
-                        }else{
-                            _g.handleError(data);
-                        }
+            _g.swalWarnDo("Delete").then((isDelete) => {
+                if(isDelete){
+                    deleteRepoApi(item.rid).then(res => {
+                        handelResponse(res, (data) => {
+                            if(data.status === "success"){
+                                swal("", "success", "success").then(() => {
+                                    this.getAllRepos();
+                                });
+                            }else{
+                                _g.handleError(data);
+                            }
+                        });
                     });
-                });
+                }
+                
             })
         },
         getAllRepos() {

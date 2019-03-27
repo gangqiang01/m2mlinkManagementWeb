@@ -1,11 +1,11 @@
 <template>
 	<div>
         <div class="m-t-10 ">
-            <p class="header-line"><i class="fa fa-server c-blue m-r-10" aria-hidden="true"></i>User List</p>
+            <p class="header-line"><i class="fa fa-sliders c-blue m-r-10" aria-hidden="true"></i>User List</p>
         </div>
 		<div class="cf panel-header">
             <div class="fr m-r-10"> 
-                <el-button size="small" type="success" @click="dialogAddUserVisible=true">Add</el-button> 
+                <!-- <el-button size="small" type="success" @click="dialogAddUserVisible=true">Add</el-button>  -->
                 <el-input size="small" class="w-300 m-l-10" v-model="keywords" placeholder="Keyword of user">
                     <el-button slot="append" icon="el-icon-search"  @click="handleCurrentChange" ></el-button>
                 </el-input>
@@ -35,7 +35,7 @@
                 </template>
 			</el-table-column>
       
-			<el-table-column
+			<!-- <el-table-column
 			label="Action"
 			width="150">
             <template slot-scope="scope">
@@ -45,7 +45,7 @@
                 </span>
             </div>
             </template>
-			</el-table-column>
+			</el-table-column> -->
 		</el-table>
    
 		<div class="p-t-20 fr">

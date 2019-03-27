@@ -1,5 +1,9 @@
 <template>
-    <el-dialog title="Add Repo" :visible.sync="dialogAddAppVisible" :show-close="isShowClose">
+    <el-dialog :visible.sync="dialogAddAppVisible" :show-close="isShowClose">
+        <div slot="title" class="dialog-title">
+            <i class="fa fa-plus-square-o m-r-10" aria-hidden="true"></i>
+            Add App
+        </div>
         <el-form ref="form" :model="form" :rules="rules" label-width="130px" class="m-l-30">
             <el-form-item label="App Repo"  >
                 <el-select v-model="form.rid" placeholder="Please select repo" class="appSelect">
@@ -15,7 +19,7 @@
                 :autosize="{ minRows: 1, maxRows: 3}"
                 placeholder="please input app description"></el-input>
             </el-form-item>
-            <el-form-item label="App Summary" prop="summary">
+            <!-- <el-form-item label="App Summary" prop="summary">
                 <el-input 
                 class="appInput"
                 type="textarea"
@@ -31,7 +35,7 @@
             </el-form-item>
             <el-form-item label="App License" prop="license"　 >
                 <el-input v-model="form.license" placeholder="Please input app license" class="appInput"></el-input>
-            </el-form-item>
+            </el-form-item> -->
             <el-form-item label="Select apk file">
                 <input type="file" name="file" @change="getfile($event)">
             </el-form-item>
@@ -66,11 +70,7 @@
                 form:{
                     rid:'',
                     description:'',
-                    website:'http://',
-                    license:'',
-                    summary:''
                 },
-                addfileurl:null,
                 rules: {
                     description: [
                         { max:128 , message:'The length cannot exceed 128 characters' , trigger:'blur'},
@@ -81,7 +81,13 @@
         },
         methods: {
             getfile(event){
-                this.file = event.target.files[0];
+                let cfile = event.target.files[0];
+                let ftype  = cfile.name.slice(cfile.name.lastIndexOf(".")+1).toLowerCase();
+                if(ftype != "apk"){
+                    swal("", "The uploaded file is not apk", "info")
+                    return;
+                }
+                this.file = cfile;
             },
             addApp(){ 
                 let formdata = new FormData();
@@ -96,14 +102,8 @@
                 this.$refs.form.validate((pass) => {
                     if (pass) {
                         this.dialogAddAppVisible = false;
-                        formdata.append("file", this.file);
-                        formdata.append("rid", this.form.rid);
-                        formdata.append("description",this.form.description);
-                        formdata.append("website",this.form.website);
-                        formdata.append("license",this.form.license);
-                        formdata.append("summary",this.form.summary);
                         _g.openGlobalLoading();
-                        addAppApi(formdata).then((res) => {
+                        addAppApi(this.file, this.form).then((res) => {
                             handelResponse(res, (data) => {
                                 if(data.status === "success"){
                                     swal("", "success", "success").then(() => {
@@ -133,6 +133,7 @@
         watch: {
             dialogAddAppVisible(val){
                 if(val){
+                    this.file = null;
                     Object.assign(this.$data.form, this.$options.data().form)
                 }
                 

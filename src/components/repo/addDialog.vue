@@ -1,8 +1,15 @@
 <template>
-    <el-dialog title="Add Repo" :visible.sync="dialogAddRepoVisible" :show-close="isShowClose">
+    <el-dialog :visible.sync="dialogAddRepoVisible" :show-close="isShowClose">
+        <div slot="title" class="dialog-title">
+            <i class="fa fa-plus-square-o m-r-10" aria-hidden="true"></i>
+            Add Repo
+        </div>
         <el-form ref="form" :model="form" :rules="rules" label-width="130px" class="m-l-30">
 			<el-form-item label="Repo Name" prop="reponame">
 				<el-input v-model.trim="form.reponame" class="repoInput" ></el-input>
+			</el-form-item>	
+            <el-form-item label="Repo Type" prop="repotype">
+				<el-input v-model.trim="form.type" class="repoInput" ></el-input>
 			</el-form-item>	
             <el-form-item label="Description" prop="description">
                 <el-input 
@@ -49,11 +56,15 @@ export default {
             form: {
                 reponame:'',
                 description:'',
+                type: '',
                 uid:'',
             },
             rules: {
                 reponame: [
-                    { required: true, message: 'Please input repo name'}
+                    {required: true, message: 'Please input repo name'}
+                ],
+                type: [
+                    {required: true, message: 'Please input repo type'}
                 ],
                 uid: [
                     { required: true, message: 'Please select repo manager'},

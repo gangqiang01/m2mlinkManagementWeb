@@ -25,10 +25,16 @@
                             <span slot="title">Repo Manager</span>
                         </el-menu-item>
                     </router-link>
-                     <router-link to="/main/appmagr/list">
+                    <router-link to="/main/appmagr/list">
                         <el-menu-item index="appmagrList">
                             <i class="fa fa-android m-r-10" ></i>
-                            <span slot="title">App Manager</span>
+                            <span slot="title">AndroidApp Repo</span>
+                        </el-menu-item>
+                    </router-link>
+                    <router-link to="/main/bspmagr/list">
+                        <el-menu-item index="bspmagrList">
+                            <i class="fa fa-microchip m-r-10"></i>
+                            <span slot="title">AndroidBsp Repo</span>
                         </el-menu-item>
                     </router-link>
                 </el-menu>
@@ -122,7 +128,7 @@
         data() {
             return {
                 isCollapse: false,
-                activeItem: 'device-devicelist',
+                activeItem: 'userList',
                 isUnique: true,
             };
         },
