@@ -52,7 +52,7 @@
                         </el-form-item>
                         <el-form-item>
                             <el-button @click="back()" size="small">Back</el-button>
-                            <el-button type="primary" @click="addBspFile()" size="small">Add</el-button>
+                            <el-button type="primary" @click="addBspFile()" size="small">Upload</el-button>
                         </el-form-item>
                     </el-form>
                 </el-tab-pane>

@@ -42,7 +42,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer">
             <el-button @click="dialogAddAppVisible = false">Cancel</el-button>
-            <el-button type="primary" @click="addApp()">Add</el-button>
+            <el-button type="primary" @click="addApp()">Upload</el-button>
         </div>
     </el-dialog>
 </template>
