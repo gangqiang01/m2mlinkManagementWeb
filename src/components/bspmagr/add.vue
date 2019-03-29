@@ -13,7 +13,7 @@
                     Bsp Upload Introduce
                 </h4>
                 <p class="intro_content">
-                    You can choose to put the bsp package on your own server or upload it to our own server.<br/>
+                    You can choose to upload the bsp package to our own server or put it on your own server .<br/>
                     Upload it on our own server: <span @click="selectBspFun('fileUpload')">{{uploadBspFun}}</span><br/>
                     Put it on your own server: <span @click="selectBspFun('fileInput')"> {{inputBspFun}}</span>
                 </p>

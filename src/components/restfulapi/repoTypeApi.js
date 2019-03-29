@@ -1,13 +1,10 @@
-import {apiGet, apiPost, apiPostfile, apiDelete} from "../../assets/js/baseApi";
+import {apiGet, apiPost, apiDelete} from "../../assets/js/baseApi";
 
 
-let addRepoApi = function({reponame , description= "" , rtid, uid}){
-    if(uid && reponame){
+let addRepoTypeApi = function({typename}){
+    if(typename){
         let data = {
-            reponame, 
-            rtid,
-            description ,
-            uid
+            typename
         }
         return new Promise((resolve, reject) => {
             apiPost('/repo', data).then((data) => {
@@ -22,9 +19,9 @@ let addRepoApi = function({reponame , description= "" , rtid, uid}){
     
 }
 
-let deleteRepoApi = function(rid){
+let deleteRepoTypeApi = function(rtid){
     return new Promise((resolve, reject) => {
-        apiDelete('/repo/'+ rid).then((data) => {
+        apiDelete('/repotype/'+ rtid).then((data) => {
             resolve(data)
         }).catch((error) => {
             resolve(err.response)
@@ -32,9 +29,9 @@ let deleteRepoApi = function(rid){
     })
 } 
 
-let getReposApi = function(data){
+let getRepoTypesApi = function(data){
     return new Promise((resolve, reject) => {
-        apiGet('/repo', data).then((data) => {
+        apiGet('/repotype', data).then((data) => {
             resolve(data)
         }).catch((error) => {
             resolve(err.response)
@@ -42,9 +39,9 @@ let getReposApi = function(data){
     })
 }
 
-let updateRepoApi = function(data){
+let updateRepoTypeApi = function(data){
     return new Promise((resolve, reject) => {
-        apiPost('/repo/'+ rid, data).then((data) => {
+        apiPost('/repotype/'+ rtid, data).then((data) => {
             resolve(data)
         }).catch((error) => {
             resolve(err.response)
@@ -53,8 +50,8 @@ let updateRepoApi = function(data){
 }
 
 export {
-    addRepoApi,
-    deleteRepoApi,
-    getReposApi,
-    updateRepoApi
+    addRepoTypeApi,
+    deleteRepoTypeApi,
+    getRepoTypesApi,
+    updateRepoTypeApi
 }

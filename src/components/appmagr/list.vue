@@ -27,7 +27,7 @@
                 >
             </el-table-column>  
             <el-table-column
-                label="reponame"
+                label="Repo Name"
                 min-width="100"
                 >
                 <template slot-scope="scope">
@@ -40,7 +40,7 @@
             </el-table-column>
             <el-table-column
                 prop="versionname"
-                label="versionname"
+                label="Version Name"
                 min-width="110"
                 >
             </el-table-column> 

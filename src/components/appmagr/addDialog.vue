@@ -36,7 +36,7 @@
             <el-form-item label="App License" prop="license"　 >
                 <el-input v-model="form.license" placeholder="Please input app license" class="appInput"></el-input>
             </el-form-item> -->
-            <el-form-item label="Select apk file">
+            <el-form-item label="Select Apk File">
                 <input type="file" name="file" @change="getfile($event)">
             </el-form-item>
         </el-form>

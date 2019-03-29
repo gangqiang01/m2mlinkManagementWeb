@@ -22,8 +22,14 @@
             </el-table-column>
             <el-table-column
                 label="Repo Type"
-                prop="type"
                 min-width="130">
+                 <template slot-scope="scope">
+                    <div>
+                        <span>
+                            {{scope.row.repoType.typename}}
+                        </span>
+                    </div>
+                </template>
             </el-table-column>	
             <el-table-column
                 label="Description"

@@ -8,9 +8,6 @@
 			<el-form-item label="Repo Name" prop="reponame">
 				<el-input v-model.trim="form.reponame" class="repoInput" ></el-input>
 			</el-form-item>	
-            <el-form-item label="Repo Type" prop="repotype">
-				<el-input v-model.trim="form.type" class="repoInput" ></el-input>
-			</el-form-item>	
             <el-form-item label="Description" prop="description">
                 <el-input 
                 v-model="form.description" 
@@ -20,9 +17,14 @@
                 :autosize="{ minRows: 1, maxRows: 3}">
                 </el-input>
             </el-form-item>
+            <el-form-item label="Repo Type" >
+                <el-select v-model.number="form.rtid"  class="repoSelect" placeholder="Please select repo type">
+                    <el-option v-for="(item, index) in repoTypes" :key="index" :label="item.typename" :value="item.rtid"></el-option>
+                </el-select>
+            </el-form-item>
             <el-form-item label="Repo Manager" >
                 <el-select v-model.number="form.uid"  class="repoSelect" placeholder="Please select repo manager">
-                    <el-option v-for="(item, index) in repousers" :key="index" :label="item.name" :value="item.uid"></el-option>
+                    <el-option v-for="(item, index) in repoUsers" :key="index" :label="item.name" :value="item.uid"></el-option>
                 </el-select>
             </el-form-item>
         </el-form>
@@ -45,29 +47,31 @@
     import {getReposApi, deleteRepoApi, addRepoApi, } from '../restfulapi/repoApi';
     import {getAllUserInfoApi} from "../restfulapi/userApi"
     import handelResponse from "../restfulapi/handleResponse"
+    import {getRepoTypesApi} from "../restfulapi/repoTypeApi"
 
 export default {
     data() {
         return {
-            repousers:[],
+            repoUsers:[],
+            repoTypes: [],
             isLoading: false,
             isShowClose: false,
             dialogAddRepoVisible: false,
             form: {
                 reponame:'',
                 description:'',
-                type: '',
                 uid:'',
+                rtid:''
             },
             rules: {
                 reponame: [
                     {required: true, message: 'Please input repo name'}
                 ],
-                type: [
-                    {required: true, message: 'Please input repo type'}
-                ],
                 uid: [
                     { required: true, message: 'Please select repo manager'},
+                ],
+                rtid: [
+                    { required: true, message: 'Please select repo type'},
                 ],
             }
         }
@@ -99,11 +103,21 @@ export default {
             getAllUserInfoApi().then((res) => {
                 handelResponse(res, (data) => {
                     if(data.status === "success"){
-                        this.repousers = data.data;
+                        this.repoUsers = data.data;
                     }
                 })
             })
         },
+
+        getAllTypes(){
+            getRepoTypesApi().then((res) => {
+                handelResponse(res, (data) => {
+                    if(data.status === "success"){
+                        this.repoTypes = data.data;
+                    }
+                })
+            })
+        }
     },
     watch: {
         dialogAddRepoVisible(val){
@@ -114,7 +128,8 @@ export default {
         }
     },
     created() {
-        this.getAllOrgs()
+        this.getAllOrgs();
+        this.getAllTypes();
     },
   }
 </script>
